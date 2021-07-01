@@ -1,0 +1,57 @@
+table		   key				                 data
+-----------------------------------------------------------------------------------------------
+blocks		height				              [blk_hash, txs, timestamp]
+txs		    tx_hash				              [block_height, cb_tx, input_KIs, output_pubkeys]
+inputs		key_img				              [tx_hash, tx_amt, mixin]
+outputs		pub_key				              [tx_hash, tx_amt]
+mixins		[key_img,output_pubkey]		  pubkey_blk_height
+
+*non-cb transactions post-RingCT will have tx amt==null
+
+==============================================================================================
+
+Table: blocks
+field name	   description					                  data type	             size(bits)
+-----------------------------------------------------------------------------------------------
+height		     -						                          INTEGER		             32
+blk_hash	     -						                          CHAR(64)	             512
+txs		         array of transactions in the block		  CHAR(64) []		         varying
+timestamp	     UTC timestamp					                TIMESTAMP	             64
+==============================================================================================
+
+Table: txs
+field name	   description					                  data type	             size(bits)
+-----------------------------------------------------------------------------------------------
+tx_hash		     -						                          CHAR(64)	             512
+blk_height	   -						                          INTEGER		             32
+cb_tx		       flag for whether it is a coinbase tx		BOOL		               8
+input_KIs      array of inputs used 				          CHAR(64) []	           varying
+output_pubkeys array of outputs				                CHAR(64) []		         varying
+==============================================================================================
+
+Table: inputs
+field name	   description					                  data type	            size(bits)
+----------------------------------------------------------------------------------------------
+key_img        -                                      CHAR(64)              512
+tx_hash		     -						                          CHAR(64)	            512
+tx_amt		     Denominated in piconero	(10^-12)      VARCHAR		            varying		*largest tx amount i've seen is 7,000,000,000,000, which exceeds 32 bits, so float8 is out of the qn here.
+mixin		       number of mixins used				          SMALLINT	            16
+===============================================================================================
+
+Table: outputs
+field name	     description					                data type	            size(bits)
+----------------------------------------------------------------------------------------------
+pub_key           -                                   CHAR(64)              512
+tx_hash		        -						                        CHAR(64)              512
+tx_amt		        Denominated in piconero	(10^-12)    VARCHAR		            varying
+===============================================================================================
+
+Table: mixins
+field name		    description						             data type             	size(bits)
+-----------------------------------------------------------------------------------------------
+key_img			      key image the output is
+                  potentially used in		             CHAR(64)	              512
+output_pubkey		  pubkey used to uniquely
+                  identify an output		             CHAR(64)	              512
+pubkey_blk_height	height of the block that
+                  the output belongs to		           INTEGER		            32

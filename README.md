@@ -1,0 +1,4 @@
+# Network Analysis and Traceability on Monero Blockchain
+Abstract:
+
+Monero was introduced as a privacy-focused alternative to Bitcoin in 2014. Based on privacy enhancing features such as ring signatures, stealth addresses and RingCT, it is supposed to protect the privacy of users while still solving the issue of double spending, which is rare in crypto currency. However, Monero is not foolproof when it comes to privacy, as previous studies have shown that it is vulnerable to weakness such as the 0-mixin attack. In this study, we explore just how much of Monero transactions are traceable, using previously known exploits to de-anonymize Monero inputs. The end goal of this study is to show that Monero is not as untraceable as thought to be, and that for Monero to achieve its privacy goals, it has to enforce privacy-by-default measures, such as using a minimum number of mixins.
